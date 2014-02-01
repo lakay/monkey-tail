@@ -4,6 +4,8 @@
 
 'use strict';
 
+var _ = require('underscore');
+
 var Sails = require('sails');
 
 // Shamelessly copied from https://github.com/derickbailey/jasmine.async
@@ -33,16 +35,14 @@ function liftSails() {
     });
 }
 
+function lowerSails() {
+    runAsync(sails.lower);
+}
+
 describe('A Person', function() {
-    beforeEach(function() {
-        liftSails();
-    });
-
-    afterEach(function() {
-        sails.lower();
-    });
-
     it('can be created empty', function() {
+        // FIXME: we currently only lift sails in the first test, because lowering sails fails.
+        liftSails();
         var person;
         runAsync(function(done) {
             Person.create({}, function(err, p) {
@@ -52,9 +52,42 @@ describe('A Person', function() {
         });
         runs(function() {
             expect(person.alienName).toMatch(/Zorg-\d+/);
-            expect(person.createdAt.getTime() - (new Date()).getTime()).toBeCloseTo(0, -1);
-            expect(person.updatedAt.getTime() - (new Date()).getTime()).toBeCloseTo(0, -1);
+            expect(person.createdAt.getTime() - (new Date()).getTime()).toBeCloseTo(0, -2);
+            expect(person.updatedAt.getTime() - (new Date()).getTime()).toBeCloseTo(0, -2);
             expect(person.id).toBeTruthy();
         });
+    });
+
+    it('validates the date of birth', function() {
+        var person;
+        var err;
+
+        _.each(['2013-02-01', '2013'], function(t) {
+            runAsync(function(done) {
+                Person.create({dateOfBirth: t}, function(e, p) {
+                    person = p;
+                    err = e;
+                    done();
+                });
+            });
+            runs(function() {
+                expect(person.dateOfBirth).toBe(t);
+                expect(err).toBeNull();
+            });
+        });
+
+        _.each(['2013-foo', 'this is not a valid date'], function(t) {
+            runAsync(function(done) {
+                Person.create({dateOfBirth: t}, function(e, p) {
+                    person = p;
+                    err = e;
+                    done();
+                });
+            });
+            runs(function() {
+                expect(err).toBeTruthy();
+            });
+        });
+
     });
 });

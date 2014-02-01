@@ -42,7 +42,7 @@ module.exports = {
         firstName: { type: 'string' },
         lastName: { type: 'string' },
         date_of_birth: {
-            type: 'string',
+            type: 'regex',
             regex: /\d{4}(?:-\d\d){1,2}/
         },
         phone: { type: 'string' },
