@@ -36,6 +36,9 @@ module.exports = {
             type: 'email',
             unique: true
         },
+        password: {
+            type: 'string'
+        },
         alienName: {
             type: 'string',
             required: true,
