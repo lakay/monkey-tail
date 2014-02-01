@@ -32,7 +32,10 @@ module.exports = {
         },
 
         // Personal info and contact data
-        email: { type: 'email' },
+        email: {
+            type: 'email',
+            unique: true
+        },
         alienName: {
             type: 'string',
             required: true,
@@ -41,9 +44,9 @@ module.exports = {
 
         firstName: { type: 'string' },
         lastName: { type: 'string' },
-        date_of_birth: {
-            type: 'regex',
-            regex: /\d{4}(?:-\d\d){1,2}/
+        dateOfBirth: {
+            type: 'string',
+            regex: /^\d{4}(?:-\d\d){0,2}$/
         },
         phone: { type: 'string' },
         address: { type: 'string' },
