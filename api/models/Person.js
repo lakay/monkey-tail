@@ -60,7 +60,6 @@ module.exports = {
     },
 
     beforeValidation: function(values, next) {
-        console.log('in beforeValidation');
         if (isBlank(values.alienName)) {
             values.alienName = generateAlienName();
         }
