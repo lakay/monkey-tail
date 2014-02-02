@@ -11,6 +11,9 @@
         "optimist": "0.3.4",
         "underscore": "1.5.2"
     },
+    "devDependencies": {
+        "jasmine-node": "1.13.0"
+    },
     "scripts": {
         "start": "node app.js",
         "debug": "node debug app.js"
