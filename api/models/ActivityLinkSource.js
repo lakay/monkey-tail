@@ -1,12 +1,10 @@
 /**
- * Node
+ * ActivityLinkSource
  *
  * @module      :: Model
  * @description :: A short summary of how this model works and what it represents.
  * @docs        :: http://sailsjs.org/#!documentation/models
  */
-
-'use strict';
 
 module.exports = {
 
@@ -22,30 +20,16 @@ module.exports = {
             required: true
         },
 
-        ownerId: {
+        personId: {
             type: 'integer',
             required: true
         },
-        targetId: {
+        activityLinkId: {
             type: 'integer',
             required: true
         },
 
-        coordX: {
-            type: 'float',
-            min: 0.0,
-            max: 1.0
-        },
-
-        coordY: {
-            type: 'float',
-            min: 0.0,
-            max: 1.0
-        },
-
-        getOwner: function() {
-            return Person.findOne(this.ownerId);
-        }
+        points: 'integer'
     },
 
     beforeValidation: function(values, next) {

@@ -8,6 +8,8 @@
 
 'use strict';
 
+var scrypt = require('js-scrypt');
+
 function isBlank(str) {
     return (!str || /^\s*$/.test(str));
 }
@@ -38,6 +40,10 @@ module.exports = {
         },
         password: {
             type: 'string'
+        },
+        salt: {
+            type: 'string',
+            required: true
         },
         alienName: {
             type: 'string',
@@ -72,7 +78,25 @@ module.exports = {
         if (!values.createdAt) {
             values.createdAt = new Date().toISOString();
         }
+        if (!values.salt) {
+            values.salt = (Math.random()).toFixed(8);
+        }
         values.updatedAt = new Date().toISOString();
         next();
+    },
+
+    // TODO: move that into the controller
+    beforeCreate: function(values, next) {
+        if (values.password) {
+            scrypt.hash(values.password, values.salt, function (err, hashed) {
+                if (err) {
+                    return next(err);
+                }
+                values.password = hashed;
+                next();
+            });
+        } else {
+            next();
+        }
     }
 };

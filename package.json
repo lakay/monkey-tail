@@ -9,7 +9,8 @@
         "sails-disk": "~0.9.0",
         "ejs": "0.8.4",
         "optimist": "0.3.4",
-        "underscore": "1.5.2"
+        "underscore": "1.5.2",
+        "js-scrypt": "0.2.0"
     },
     "devDependencies": {
         "jasmine-node": "1.13.0"

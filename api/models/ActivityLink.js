@@ -31,30 +31,14 @@ module.exports = {
         },
 
         activityId: 'integer',
-        sourceIds: {
-            type: 'array',
-            defaultsTo: []
-        },
-        targetIds: {
-            type: 'array',
-            defaultsTo: []
-        },
         location: 'string',
         startDateTime: 'datetime',
         success: 'boolean',
 
-        pointsForSource: {
-            type: 'array',
-            defaultsTo: []
-        },
-        pointsForTarget: {
-            type: 'array',
-            defaultsTo: []
-        },
-
         referenceCode: {
             type: 'string',
-            required: true
+            required: true,
+            unique: true
         }
     },
 
@@ -66,9 +50,6 @@ module.exports = {
         if (!values.referenceCode) {
             values.referenceCode = generateReferenceCode();
         }
-
-        // TODO: Validate sources and targets
-        // TODO: Validate that lengths of points arrays correspond to sources and targets
         next();
     }
 };
